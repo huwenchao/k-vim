@@ -65,3 +65,8 @@ ${1}
 endsnippet
 
 
+snippet withdb "relation db auto competition"
+WithDbOp(map[string]string{"db":"${1:write}", "method": "${2}"}, func() *gorm.DB {
+	${3}
+})${4}
+endsnippet

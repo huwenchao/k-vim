@@ -16,8 +16,8 @@ filetype off " required! turn off
 
 " inspired by spf13, 自定义需要的插件集合
 if !exists('g:bundle_groups')
-    " let g:bundle_groups=['python', 'javascript', 'markdown', 'html', 'css', 'tmux', 'beta', 'json', 'nginx', 'golang', 'ruby', 'less', 'php', 'coffeescript']
-    let g:bundle_groups=['python', 'javascript', 'markdown', 'html', 'css', 'tmux', 'beta']
+    let g:bundle_groups=['python', 'javascript', 'markdown', 'html', 'css', 'tmux', 'beta', 'json', 'nginx', 'golang', 'ruby', 'less', 'php', 'coffeescript', 'thrift']
+    " let g:bundle_groups=['python', 'javascript', 'markdown', 'html', 'css', 'tmux', 'beta']
 endif
 
 " ----------------------------------------------------------------------------
@@ -29,8 +29,22 @@ call plug#begin('~/.vim/bundle')
 
 " 移动光标到插件名上, 使用'#'快速跳转到每个插件的配置处
 
+" vim tmux 无缝切换
+Plug 'christoomey/vim-tmux-navigator'
+
+" vim 自动保存
+" Plug '907th/vim-auto-save'
+" let g:auto_save = 1  " enable AutoSave on Vim startup"
+
+" vim buffer 管理
+Plug 'fholgado/minibufexpl.vim'
+
 " syntastic
 Plug 'scrooloose/syntastic'
+
+" 让 YCM 和 UltiSnips 的 tab 不冲突
+" http://stackoverflow.com/questions/14896327/ultisnips-and-youcompleteme/22253548#22253548
+" Plug 'ervandew/supertab'
 
 " Group dependencies, vim-snippets depends on ultisnips
 " 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
@@ -134,7 +148,7 @@ Plug 'kien/rainbow_parentheses.vim'
 Plug 'altercation/vim-colors-solarized'
 " molokai
 " 主题 molokai
-Plug 'tomasr/molokai'
+" Plug 'tomasr/molokai'
 
 
 " nav
@@ -217,6 +231,9 @@ if count(g:bundle_groups, 'javascript')
     " Plug 'marijnh/tern_for_vim'
 endif
 
+if count(g:bundle_groups, 'thrift')
+    Plug 'solarnz/thrift.vim'
+endif
 
 if count(g:bundle_groups, 'coffeescript')
     Plug 'kchmck/vim-coffee-script'
@@ -248,7 +265,7 @@ if count(g:bundle_groups, 'html')
 endif
 
 if count(g:bundle_groups, 'nginx')
-    " Plug 'evanmiller/nginx-vim-syntax'
+    Plug 'evanmiller/nginx-vim-syntax'
 endif
 
 
@@ -351,10 +368,10 @@ call plug#end()
 
 " YouCompleteMe {{{
     "youcompleteme  默认tab  s-tab 和自动补全冲突
-    "let g:ycm_key_list_select_completion=['<c-n>']
-    let g:ycm_key_list_select_completion = ['<Down>']
-    "let g:ycm_key_list_previous_completion=['<c-p>']
-    let g:ycm_key_list_previous_completion = ['<Up>']
+    let g:ycm_key_list_select_completion=['<c-n>']
+    let g:ycm_key_list_previous_completion=['<c-p>']
+    " let g:ycm_key_list_select_completion = ['<Down>', '<TAB>']
+    " let g:ycm_key_list_previous_completion = ['<Up>', 's-<tab>']
     let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
     let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
     let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
@@ -366,10 +383,11 @@ call plug#end()
     "let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
 
     " 跳转到定义处, 分屏打开
-    let g:ycm_goto_buffer_command = 'horizontal-split'
+    let g:ycm_goto_buffer_command = 'same-buffer'
     " nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
+    nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
     nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-    nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
+    nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
 
     " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
     " old version
@@ -382,7 +400,7 @@ call plug#end()
     endif
 
     " 直接触发自动补全 insert模式下
-    " let g:ycm_key_invoke_completion = '<C-Space>'
+    let g:ycm_key_invoke_completion = '<C-f>'
     " 黑名单,不启用
     let g:ycm_filetype_blacklist = {
         \ 'tagbar' : 1,
@@ -510,7 +528,8 @@ call plug#end()
 " ctrlp ctrlpfunky{{{
     let g:ctrlp_map = '<leader>p'
     let g:ctrlp_cmd = 'CtrlP'
-    map <leader>f :CtrlPMRU<CR>
+    map <leader>ff :CtrlPMRU<CR>
+    map <leader>f :CtrlPBuffer<CR>
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
         \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
@@ -522,12 +541,12 @@ call plug#end()
     let g:ctrlp_mruf_max=500
     let g:ctrlp_follow_symlinks=1
     " 如果安装了ag, 使用ag
-    " if executable('ag')
-    " " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    " " ag is fast enough that CtrlP doesn't need to cache
-    " let g:ctrlp_use_caching = 0
-    " endif
+    if executable('ag')
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
+    endif
 
     " ctrlpfunky
     " ctrlp插件1 - 不用ctag进行函数快速跳转
@@ -578,14 +597,18 @@ call plug#end()
 " gitgutter {{{
     " 同git diff,实时展示文件中修改的行
     " 只是不喜欢除了行号多一列, 默认关闭,gs时打开
-    let g:gitgutter_map_keys = 0
-    let g:gitgutter_enabled = 0
+    let g:gitgutter_map_keys = 1
+    let g:gitgutter_enabled = 1
     let g:gitgutter_highlight_lines = 1
     nnoremap <leader>gs :GitGutterToggle<CR>
 " }}}
 
 " gundo {{{
     noremap <leader>h :GundoToggle<CR>
+    " 开启保存 undo 历史功能
+    set undofile
+    " undo 历史保存路径
+    set undodir=~/.undo_history/
 " }}}
 
 " ################### 显示增强 ###################
@@ -740,6 +763,7 @@ call plug#end()
 
 " ################### 语言相关 ###################
 
+" \       "outputter" : "message",
 " quickrun {{{
     let g:quickrun_config = {
     \   "_" : {
@@ -766,7 +790,7 @@ call plug#end()
     let g:go_highlight_build_constraints = 1
 
     let g:go_fmt_fail_silently = 1
-    " let g:go_fmt_command = "goimports"
+    let g:go_fmt_command = "goimports"
     " let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 " }}}
 
@@ -800,7 +824,7 @@ call plug#end()
     " format all file
     autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr>
     " format select block
-    " autocmd FileType python vnoremap <leader>y :!yapf<Cr>
+    autocmd FileType python vnoremap <leader>y :!yapf<Cr>
 
     " Plug 'mindriot101/vim-yapf'
     " scriptencoding utf-8
@@ -809,5 +833,7 @@ call plug#end()
     " setenv PYTHONIOENCODING UTF-8
     " nnoremap <leader>y :call Yapf()<cr>
 " }}}
+
+
 
 "------------------------------------------- end of configs --------------------------------------------

@@ -65,9 +65,9 @@ set autoread
 set shortmess=atI
 
 " 备份,到另一个位置. 防止误删, 目前是取消备份
-"set backup
-"set backupext=.bak
-"set backupdir=/tmp/vimbk/
+" set backup
+" set backupext=.bak
+" set backupdir=/tmp/vimbk/
 
 " 取消备份。 视情况自己改
 set nobackup
@@ -102,9 +102,9 @@ set t_ti= t_te=
 
 
 " 鼠标暂不启用, 键盘党....
-set mouse-=a
+" set mouse-=a
 " 启用鼠标
-" set mouse=a
+set mouse=a
 " Hide the mouse cursor while typing
 " set mousehide
 
@@ -155,7 +155,7 @@ set laststatus=2
 " 显示行号
 set number
 " 取消换行
-set nowrap
+" set nowrap
 
 " 括号配对情况, 跳转并高亮一下匹配的括号
 set showmatch
@@ -182,7 +182,7 @@ set foldenable
 " syntax    使用语法定义折叠
 " diff      对没有更改的文本进行折叠
 " marker    使用标记进行折叠, 默认标记是 {{{ 和 }}}
-set foldmethod=indent
+set foldmethod=syntax
 set foldlevel=99
 " 代码折叠自定义快捷键 <leader>zz
 let g:FoldMethod = 0
@@ -384,10 +384,10 @@ inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 
 " 分屏窗口移动, Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+" map <C-j> <C-W>j
+" map <C-k> <C-W>k
+" map <C-h> <C-W>h
+" map <C-l> <C-W>l
 
 
 " http://stackoverflow.com/questions/13194428/is-better-way-to-zoom-windows-in-vim-than-zoomwin
@@ -511,7 +511,9 @@ vnoremap > >gv
 map Y y$
 
 " 复制选中区到系统剪切板中
-vnoremap <leader>y "+y
+" vnoremap <leader>y "+y
+nnoremap <leader>yc :call system('ssh -p 12345 huwenchao@localhost pbcopy', @0)<CR>
+" vnoremap y :call system('ssh -p 12345 huwenchao@localhost pbcopy', @0)<CR>
 
 " auto jump to end of select
 " vnoremap <silent> y y`]
@@ -523,6 +525,8 @@ map <Leader>sa ggVG
 
 " select block
 nnoremap <leader>v V`}
+
+nnoremap <leader>l @:
 
 " w!! to sudo & write a file
 cmap w!! w !sudo tee >/dev/null %
@@ -591,8 +595,9 @@ function! AutoSetFileHead()
 
     "如果文件类型为python
     if &filetype == 'python'
-        call setline(1, "\#!/usr/bin/env python")
-        call append(1, "\# encoding: utf-8")
+        call setline(1, "# -*- coding: utf-8 -*-")
+        " call setline(1, "\#!/usr/bin/env python")
+        " call append(1, "\# encoding: utf-8")
     endif
 
     normal G
@@ -684,7 +689,6 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
-
 
 
 
