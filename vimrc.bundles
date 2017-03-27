@@ -24,7 +24,7 @@ endif
 " 使用 vim-plug 管理插件
 " vim plugin bundle control, command model
 " ----------------------------------------------------------------------------
-"  
+"
 call plug#begin('~/.vim/bundle')
 
 " 移动光标到插件名上, 使用'#'快速跳转到每个插件的配置处
@@ -498,6 +498,7 @@ call plug#end()
 " easymotion {{{
     let g:EasyMotion_smartcase = 1
     "let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
+    map <Leader><leader>f <Plug>(easymotion-jumptoanywhere)
     map <Leader><leader>h <Plug>(easymotion-linebackward)
     map <Leader><Leader>j <Plug>(easymotion-j)
     map <Leader><Leader>k <Plug>(easymotion-k)
@@ -616,10 +617,16 @@ call plug#end()
 " gitgutter {{{
     " 同git diff,实时展示文件中修改的行
     " 只是不喜欢除了行号多一列, 默认关闭,gs时打开
-    let g:gitgutter_map_keys = 1
-    let g:gitgutter_enabled = 1
-    let g:gitgutter_highlight_lines = 1
-    nnoremap <leader>gs :GitGutterToggle<CR>
+    " let g:gitgutter_map_keys = 1
+    " let g:gitgutter_enabled = 0
+    let g:gitgutter_highlight_lines = 0
+    " default map keys
+    " nmap [c <Plug>GitGutterPrevHunk
+    " nmap ]c <Plug>GitGutterNextHunk
+    " nmap <Leader>hs <Plug>GitGutterStageHunk
+    " nmap <Leader>hu <Plug>GitGutterUndoHunk
+    " nmap <Leader>hp <Plug>GitGutterPreviewHunk
+    nnoremap <leader>hc :pclose<CR>
 " }}}
 
 " gundo {{{
