@@ -868,6 +868,8 @@ call plug#end()
     " nnoremap <leader>y :call Yapf()<cr>
 " }}}
 
-
+" vim-go {{{
+    " let g:go_get_update = 0
+" }}}
 
 "------------------------------------------- end of configs --------------------------------------------
