@@ -1,0 +1,19 @@
+snippet method "define a service method"
+${2:$1}Response ${1:method}(1: ${3:$1}Request request)
+endsnippet
+
+snippet req "request"
+struct ${1} {
+	${2}
+	255: optional base.Base Base,
+}
+${3}
+endsnippet
+
+snippet res "response"
+struct ${1} {
+	${2}
+	255: base.BaseResp BaseResp,
+}
+${3}
+endsnippet
