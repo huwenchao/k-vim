@@ -512,8 +512,15 @@ map Y y$
 
 " 复制选中区到系统剪切板中
 " vnoremap <leader>y "+y
-nnoremap <leader>yc :call system('ssh -p 12345 huwenchao@localhost pbcopy', @0)<CR>
-" vnoremap y :call system('ssh -p 12345 huwenchao@localhost pbcopy', @0)<CR>
+let g:os = substitute(system('uname'), '\n', '', '')
+echo g:os
+if g:os == "Darwin"
+    nnoremap <leader>yc :call system('pbcopy', @0)<CR>
+    " vnoremap y :call system('pbcopy', @0)<CR>
+elseif g:os == "Linux"
+    nnoremap <leader>yc :call system('ssh -p 12345 huwenchao@localhost pbcopy', @0)<CR>
+    " vnoremap y :call system('ssh -p 12345 huwenchao@localhost pbcopy', @0)<CR>
+endif
 
 " auto jump to end of select
 " vnoremap <silent> y y`]
@@ -615,32 +622,14 @@ if has("autocmd")
   endif
 endif
 
-"==========================================
-" TEMP 设置, 尚未确定要不要
-"==========================================
-
-" tmux
-" function! WrapForTmux(s)
-"   if !exists('$TMUX')
-"     return a:s
-"   endif
-"
-"   let tmux_start = "\<Esc>Ptmux;"
-"   let tmux_end = "\<Esc>\\"
-"
-"   return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
-" endfunction
-"
-" let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-" let &t_EI .= WrapForTmux("\<Esc>[?2004l")
 
 " allows cursor change in tmux mode
-" let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-" let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-" if exists('$TMUX')
-    " let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    " let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-" endif
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+endif
 
 
 "==========================================
@@ -689,12 +678,6 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
-
-" cursor 不同状态下不同显示
-" http://vim.wikia.com/wiki/Change_cursor_shape_in_different_modes
-let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-" let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 
 
 
