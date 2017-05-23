@@ -513,7 +513,7 @@ map Y y$
 " 复制选中区到系统剪切板中
 " vnoremap <leader>y "+y
 let g:os = substitute(system('uname'), '\n', '', '')
-echo g:os
+" echo g:os
 if g:os == "Darwin"
     nnoremap <leader>yc :call system('pbcopy', @0)<CR>
     " vnoremap y :call system('pbcopy', @0)<CR>
