@@ -518,7 +518,10 @@ if g:os == "Darwin"
     nnoremap <leader>yc :call system('pbcopy', @0)<CR>
     " vnoremap y :call system('pbcopy', @0)<CR>
 elseif g:os == "Linux"
-    nnoremap <leader>yc :call system('ssh -p 12345 huwenchao@localhost pbcopy', @0)<CR>
+    let s:client_ip = substitute(system("echo $SSH_CONNECTION | awk '{print $1}'"), '\n', '', '')
+    let g:paste_cmd = 'ssh huwenchao@' . s:client_ip . " pbcopy"
+    " echo g:paste_cmd
+    nnoremap <leader>yc :call system(g:paste_cmd, @0)<CR>
     " vnoremap y :call system('ssh -p 12345 huwenchao@localhost pbcopy', @0)<CR>
 endif
 
