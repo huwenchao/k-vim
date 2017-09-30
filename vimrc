@@ -17,6 +17,7 @@
 "       -> Theme Settings  主题设置
 "
 "       -> 插件配置和具体设置在vimrc.bundles中
+" Note: Don't put anything in your .vimrc you don't understand!
 "==========================================
 
 "==========================================
@@ -533,6 +534,9 @@ endif
 " select all
 map <Leader>sa ggVG
 
+" 选中并高亮最后一次插入的内容
+nnoremap gv `[v`]
+
 " select block
 nnoremap <leader>v V`}
 
@@ -568,8 +572,12 @@ nnoremap ` '
 nnoremap U <C-r>
 
 " Quickly edit/reload the vimrc file
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
+" nmap <silent> <leader>ev :e $MYVIMRC<CR>
+" nmap <silent> <leader>sv :so $MYVIMRC<CR>
+" edit vimrc/zshrc and load vimrc bindings
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>ez :vsp ~/.zshrc<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
 
 "==========================================
 " FileType Settings  文件类型设置
@@ -580,6 +588,8 @@ autocmd FileType python set tabstop=4 shiftwidth=4 expandtab ai
 autocmd FileType ruby,javascript,html,css,xml set tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
 autocmd BufRead,BufNewFile *.md,*.mkd,*.markdown set filetype=markdown.mkd
 autocmd BufRead,BufNewFile *.part set filetype=html
+autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
+
 " disable showmatch when use > in php
 au BufWinEnter *.php set mps-=<:>
 
@@ -634,6 +644,14 @@ if exists('$TMUX')
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 endif
 
+"==========================================
+" TEMP 设置, 尚未确定要不要
+"==========================================
+
+" beta
+" https://dougblack.io/words/a-good-vimrc.html
+set lazyredraw          " redraw only when we need to.
+
 
 "==========================================
 " Theme Settings  主题设置
@@ -664,7 +682,6 @@ set t_Co=256
 
 colorscheme solarized
 " colorscheme molokai
-" colorscheme desert
 
 
 " 设置标记一列的背景颜色和数字一行颜色一致
@@ -681,6 +698,3 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
-
-
-
