@@ -278,13 +278,12 @@ if count(g:bundle_groups, 'less')
 endif
 
 if count(g:bundle_groups, 'html')
-    " ###### emmet HTML complete #########
-    Plug "mattn/emmet-vim"
+    Plug 'mattn/emmet-vim'
 endif
 
-if count(g:bundle_groups, 'nginx')
-    Plug 'evanmiller/nginx-vim-syntax'
-endif
+" if count(g:bundle_groups, 'nginx')
+    " Plug 'evanmiller/nginx-vim-syntax'
+" endif
 
 " this is just for beta version
 if count(g:bundle_groups, 'beta')
@@ -451,7 +450,7 @@ endif
     " 开启语法关键字补全
     let g:ycm_seed_identifiers_with_syntax=1
     " 指定python解释器
-    " let g:ycm_python_binary_path = 'python'
+    let g:ycm_python_binary_path = '~/.pyenv/versions/anaconda2-4.4.0/bin/python'
     " 回车作为选中
     let g:ycm_key_list_stop_completion = ['<CR>']
 
