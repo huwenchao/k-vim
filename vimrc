@@ -28,6 +28,8 @@
 let mapleader = ','
 let g:mapleader = ','
 
+" set modifiable
+
 " 开启语法高亮
 syntax on
 
@@ -426,7 +428,7 @@ cnoremap <C-e> <End>
 
 " 搜索相关
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
+" map <space> /
 " 进入搜索Use sane regexes"
 nnoremap / /\v
 vnoremap / /\v
