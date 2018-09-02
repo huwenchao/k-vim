@@ -32,6 +32,12 @@ call plug#begin('~/.vim/bundle')
 " vim tmux 无缝切换
 Plug 'christoomey/vim-tmux-navigator'
 
+" rust
+Plug 'mattn/webapi-vim'
+Plug 'rust-lang/rust.vim'
+
+Plug 'schickling/vim-bufonly'
+
 " vim 自动保存
 " Plug '907th/vim-auto-save'
 " let g:auto_save = 1  " enable AutoSave on Vim startup"
@@ -320,7 +326,7 @@ if has_key(g:plugs, 'syntastic')
 
     let g:syntastic_error_symbol='>>'
     let g:syntastic_warning_symbol='>'
-    let g:syntastic_check_on_open=1
+    " let g:syntastic_check_on_open=1
     let g:syntastic_check_on_wq=0
     let g:syntastic_enable_highlighting=1
 
@@ -451,6 +457,7 @@ endif
     let g:ycm_seed_identifiers_with_syntax=1
     " 指定python解释器
     " let g:ycm_python_binary_path = '/Users/huwenchao/.pyenv/versions/anaconda2-4.4.0/bin/python'
+    let g:ycm_rust_src_path = '/Users/huwenchao/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src'
     " 回车作为选中
     let g:ycm_key_list_stop_completion = ['<CR>']
 
@@ -939,5 +946,8 @@ endif
     " 导入当前光标所在单词的包，方便使用补全
     nnoremap <Leader>goi :execute 'GoImport ' . expand('<cword>')<Cr>
 " }}}
+
+let g:rustfmt_autosave = 1
+let g:rust_clip_command = 'pbcopy'
 
 "------------------------------------------- end of configs --------------------------------------------
